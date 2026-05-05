@@ -25,14 +25,29 @@ MyTask is a mobile application designed to help users organize and manage their 
 
 📸 Screenshots
 
-![Home](screenshots/home.jpg)
+- Active Page / Home
+  ![Home](screenshots/home.jpg)
 
-![Task](screenshots/task.jpg)
+
+- Dashboard
+  ![Home](screenshots/dashboard.jpg)
 
 
+- Add Device
+  ![Home](screenshots/add-device.jpg)
+
+
+- Streak
+  ![Home](screenshots/streak.jpg)
+
+
+- Important
+  ![Home](screenshots/important.jpg)
+
+  
 📦 APK Download
 
-(Add APK link here if available)
+https://github.com/kranthi-07/MyTask/blob/main/app/release/app-release.apk
 
 
 💻 GitHub Repository
