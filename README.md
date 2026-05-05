@@ -25,7 +25,9 @@ MyTask is a mobile application designed to help users organize and manage their 
 
 📸 Screenshots
 
+![Home](screenshots/home.jpg)
 
+![Task](screenshots/task.jpg)
 
 
 📦 APK Download
