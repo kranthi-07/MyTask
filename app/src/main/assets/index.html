@@ -1,0 +1,509 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MYTASK</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+
+    <div class="add-device-overlay">
+
+        <div class="overlay-box">
+            <i class="ri-close-line close"></i>
+
+            <div class="details">
+                <h1>Add Device</h1>
+
+                <div class="add-field" id="addDeviceName">
+                    <input type="text" class="input-field" id="deviceNameInput" placeholder="Name of the Device">
+                    <div class="field-toast" id="deviceNameToast"></div>
+                </div>
+
+
+
+                <div class="add-field task-field-wrapper">
+                    <div class="field-toast" id="taskInputToast"></div>
+
+
+                    <div style="display: flex;align-items: center;">
+                        <textarea type="text" class="input-field" id="taskInput" maxlength="150"
+                            placeholder="Add a Task" style="height:80px;"></textarea>
+
+                        <div class="date-add-btn date-field-wrapper">
+
+                            <div class="field-toast" id="taskDateToast"></div>
+
+
+                            <button id="addTaskBtn" class="add-btn"><i class="ri-add-large-line"></i></button>
+
+                            <div class="important-btn-wrap">
+                                <button class="important-button" id="importantBtn"><i class="ri-star-line"></i></button>
+                                <div class="important-toast" id="importantToast"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="date-schedule">
+                        <p>Schedule:</p>
+
+
+
+                        <!-- CALENDAR POPUP -->
+                        <div id="calendarPopup" class="calendar-popup">
+
+                            <div class="calendar-box">
+
+                                <!-- HEADER -->
+                                <div class="calendar-header">
+                                    <button id="prevMonth">‹</button>
+                                    <h3 id="monthYear">April 2026</h3>
+                                    <button id="nextMonth">›</button>
+                                </div>
+
+                                <!-- DAYS -->
+                                <div id="calendarDays" class="calendar-days"></div>
+
+                                <!-- TIME SELECT -->
+                                <div class="time-buttons">
+                                    <button data-time="10 min">+10 min</button>
+                                    <button data-time="20 min">+20 min</button>
+                                    <button data-time="1 hour">+1 hr</button>
+                                    <button data-time="3 hours">+3 hr</button>
+                                    <button data-time="Evening">Evening</button>
+                                    <button data-time="Night">Night</button>
+                                </div>
+
+                                <!-- ACTION -->
+                                <div class="calendar-actions">
+                                    <button id="saveDateTime">Save</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- OPEN BUTTON -->
+                        <div class="custom-date" id="openCalendar">
+                            <span id="datePreview">Select Date</span>
+                            <i class="ri-calendar-line"></i>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="assigned-save-btn">
+
+                    <div class="assigned-btn-wrapper">
+                        <div class="assigned-btn">Assigned Tasks (0)</div>
+                        <div class="field-toast" id="assignedToast"></div>
+                    </div>
+
+                    <div class="save-device" id="saveDeviceBtn">
+                        <p>Save Device</p>
+                        <!-- <div class="save-device-toast" id="saveDeviceToast"></div> -->
+                    </div>
+
+                </div>
+
+                <div class="assigned-tasks-popup">
+                    <div class="assigned-box">
+                        <h2 id="assignedTitle">Assigned Tasks (0)</h2>
+
+                        <p id="dragHint" style="font-size:12px; display:none; opacity:0.7;">
+                            You can adjust them by dragging
+                        </p>
+
+                        <div class="assigned-list"></div>
+                        <button id="closeAssignedTasks">Close</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="example">
+                <h2>You can add devices like</h2>
+                <div class="device-tabs">
+                    <div class="device-tab mobile">
+                        <p>Mobile</p>
+                    </div>
+                    <div class="device-tab tablet">
+                        <p>Tablet</p>
+                    </div>
+                    <div class="device-tab laptop">
+                        <p>Laptop</p>
+                    </div>
+                    <div class="device-tab more">
+                        <p>More...</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="streak-popup" id="streakPopup">
+        <div class="streak-popup-box">
+            <h2>🔥 Your Streak</h2>
+            <p id="streakDays"></p>
+            <p id="todayCompleted"></p>
+            <button onclick="closeStreak()">Close</button>
+        </div>
+    </div>
+
+
+    <!-- MAIN ADD TASK OVERLAY -->
+    <div class="add-task-overlay" id="addTaskOverlay">
+        <div class="add-task-box">
+            <h2>Add Task</h2>
+
+            <button id="addIndividualBtn">➕ Add Individual Task</button>
+            <button id="addToDeviceBtn">📱 Add to Device</button>
+
+            <span class="close-overlay" id="closeAddTask">✖</span>
+        </div>
+    </div>
+
+    <!-- DEVICE SELECTION OVERLAY -->
+    <div class="device-select-overlay" id="deviceSelectOverlay">
+        <div class="device-select-box">
+            <h2>Select Device</h2>
+
+            <div id="deviceList"></div>
+
+            <span class="close-overlay" id="closeDeviceSelect">✖</span>
+        </div>
+    </div>
+
+
+
+    <nav class="topbar">
+        <div class="top-ribbon">
+            <div class="name">
+                <h2>Kranthi Kumar Reddy</h2>
+
+                <div class="task-title">
+                    <p>WEB DEVELOPMENT</p>
+                </div>
+
+
+                <div id="streakBox"></div>
+            </div>
+
+
+
+
+
+
+            <div class="active-tasks" id="activeTasksBtn">
+                <i class="ri-flashlight-line active-icon"></i>
+                <h3>Active Tasks</h3>
+                <div class="count">0</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="taskProgressFill"></div>
+                </div>
+                <span class="progress-text" id="taskProgressText">0%</span>
+            </div>
+
+        </div>
+
+
+
+        <div class="bottom-ribbon">
+            <div class="important-tasks-btn">
+                <h3>Important</h3>
+            </div>
+
+            <div class="quick-tab today-tasks">
+                <h3>Today <span class="badge" id="todayCount"></span></h3>
+                <div class="tab-popup">There are no tasks to do today</div>
+            </div>
+
+            <div class="quick-tab upcoming-tasks">
+                <h3>Upcoming <span class="badge" id="upcomingCount"></span></h3>
+                <div class="tab-popup">No upcoming tasks scheduled</div>
+            </div>
+
+            <div class="quick-tab overdue-tasks">
+                <h3>Overdue <span class="badge" id="overdueCount"></span></h3>
+                <div class="tab-popup">No overdue tasks 🎉</div>
+            </div>
+
+
+            <div class="quick-tab progress-tasks">
+                <h3>Progress</h3>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="devices">
+        <div class="heading">
+            <h2>My devices</h2>
+            <div class="add" id="addDevice">
+                <p>Add Device</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab">
+                <p>No Devices Added</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="important-tasks">
+        <div class="heading">
+            <h2>Important Tasks</h2>
+            <div class="add">
+                <p>⭐</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab">
+                <p>No Important Tasks Added</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="all-tasks" id="myTasksSection">
+        <div class="heading">
+            <h2>My Tasks</h2>
+            <div class="add">
+                <p>Add Task</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab">
+                <p>No Tasks Added</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="completed-tasks">
+        <div class="heading">
+            <h2>Completed Tasks</h2>
+            <div class="right">
+                <i class="ri-check-line"></i>
+            </div>
+        </div>
+
+        <div class="tabs">
+
+        </div>
+    </div>
+
+
+    <div class="task-popup">
+        <div class="task-popup-box">
+            <h3 id="taskPopupTitle">Add Task</h3>
+            <div class="field-toast" id="taskFieldToast">Enter a task</div>
+            <textarea id="popupTaskInput" maxlength="300" placeholder="Enter task..."></textarea>
+            <input type="date" id="taskDueDate">
+            <div class="popup-actions">
+                <button id="saveTaskPopup">Save</button>
+                <button id="cancelTaskPopup">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="delete-popup">
+        <div class="delete-box">
+            <h3>Delete this device along with its tasks?</h3>
+            <div class="delete-actions">
+                <button id="deleteDeviceYes">Yes</button>
+                <button id="deleteDeviceNo">No</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="task-spotlight" id="taskSpotlight"></div>
+
+
+
+    <!-- TODAY OVERLAY -->
+    <div class="page-overlay" id="todayOverlay">
+        <div class="overlay-header">
+            <h2>Today Tasks</h2>
+        </div>
+        <div class="overlay-content" id="todayContent"></div>
+    </div>
+
+
+
+    <!-- OVERDUE OVERLAY -->
+    <div class="page-overlay" id="overdueOverlay">
+        <div class="overlay-header">
+            <h2>Overdue Tasks</h2>
+        </div>
+        <div class="overlay-content" id="overdueContent"></div>
+    </div>
+
+    <!-- IMPORTANT OVERLAY -->
+    <div class="page-overlay" id="importantOverlay">
+        <div class="overlay-header">
+            <h2>Important Tasks</h2>
+        </div>
+        <div class="overlay-content" id="importantContent">
+            <div class="important-tasks-footer">
+                <div class="heading">
+                    <div class="add">
+                        <p>⭐</p>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab">
+                        <p>No Important Tasks Added</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME OVERLAY -->
+    <div class="page-overlay" id="homeOverlay">
+
+        <div class="overlay-header">
+            <h2>Dashboard</h2>
+        </div>
+
+        <div class="overlay-content" id="homeContent">
+
+            <!-- SUMMARY CARDS -->
+            <div class="dashboard-summary">
+                <div class="card" id="activeTasksCard" data-target="active">0<br><span>Active</span></div>
+                <div class="card" id="importantTasksCard" data-target="important">0<br><span>Important</span></div>
+                <div class="card" id="totalTasksCard" data-target="all">0<br><span>Total</span></div>
+                <div class="card" id="completedTasksCard" data-target="completed">0<br><span>Done</span></div>
+            </div>
+
+            <!-- ACTIVE TASKS -->
+            <div class="dashboard-section">
+                <i class="ri-flashlight-line pre-icons"></i>
+                <h3>Active Tasks</h3>
+                <i class="ri-arrow-right-s-fill arrow-right"></i>
+                <div id="homeActiveTasks"></div>
+            </div>
+
+            <!-- IMPORTANT TASKS -->
+            <div class="dashboard-section">
+                <i class="ri-star-line pre-icons"></i>
+                <h3>Important Tasks</h3>
+                <i class="ri-arrow-right-s-fill arrow-right"></i>
+                <div id="homeImportantTasks"></div>
+            </div>
+
+            <!-- ALL TASKS -->
+            <div class="dashboard-section">
+                <i class="ri-file-list-3-line pre-icons"></i>
+                <h3>All Tasks</h3>
+                <i class="ri-arrow-right-s-fill arrow-right"></i>
+                <div id="homeAllTasks"></div>
+            </div>
+
+            <!-- COMPLETED TASKS -->
+            <div class="dashboard-section">
+                <i class="ri-checkbox-circle-line pre-icons"></i>
+                <h3>Completed</h3>
+                <i class="ri-arrow-right-s-fill arrow-right"></i>
+                <div id="homeCompletedTasks"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ALL TASKS -->
+    <div class="page-overlay" id="allOverlay">
+        <div class="overlay-header">
+            <h2>All Tasks</h2>
+        </div>
+        <div class="overlay-content" id="allContent"></div>
+    </div>
+
+    <!-- COMPLETED TASKS -->
+    <div class="page-overlay" id="completedOverlay">
+        <div class="overlay-header">
+            <h2>Completed Tasks</h2>
+        </div>
+        <div class="overlay-content" id="completedContent"></div>
+    </div>
+
+
+    <div class="card-expand-overlay" id="cardExpandOverlay">
+        <div class="expanded-card" id="expandedCardContent"></div>
+    </div>
+
+
+    <div id="undoBar">
+        <span id="undoText"></span>
+        <button id="undoBtn">UNDO</button>
+    </div>
+
+
+    <footer>
+        <div class="footer-item" data-page="homePage">
+            <i class="ri-home-6-line"></i>
+            <p>Home</p>
+        </div>
+
+        <div class="footer-item" data-page="todayPage">
+            <i class="ri-team-line"></i>
+            <p>Today</p>
+        </div>
+
+        <div class="footer-item active-footer-icon" data-page="activePage">
+            <i class="ri-flashlight-line"></i>
+            <p>Active</p>
+        </div>
+
+        <div class="footer-item" data-page="overduePage">
+            <i class="ri-history-line"></i>
+            <p>Due</p>
+        </div>
+
+        <div class="footer-item" data-page="importantPage">
+            <i class="ri-user-4-line"></i>
+            <p>Imp</p>
+        </div>
+    </footer>
+
+
+
+
+    <div id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+</body>
+
+<script src="script.js"></script>
+
+</html>

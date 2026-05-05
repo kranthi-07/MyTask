@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="Theme.MyTask.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyTask</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
+</resources>
